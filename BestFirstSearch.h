@@ -21,5 +21,12 @@ public:
   BestFirstSearch();
   ~BestFirstSearch();
   void print();
+
+  EuclideanDistance(int* point1, int* point2);
+  ~EuclideanDistance();
+
+  ManhattenDistance(int* point1, int* point2);
+  ~ManhattenDistance();
+
 };
 #endif

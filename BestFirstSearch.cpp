@@ -90,5 +90,23 @@ void BestFirstSearch::print(){
       }
     cout<<endl;
   }
+}
 
+float BestFirstSearch::EuclideanDistance(int* point1, int* point2)
+{
+  float xDifference = abs(point1[0] - point2[0]);
+  float yDifference = abs(point1[1] - point2[1]);
+  float xDifferenceSquared = pow(xDifference, 2);
+  float yDifferenceSquared = pow(yDifference, 2);
+  float euclideanDist =sqrt(xDifferenceSquared + yDifferenceSquared);
+  return euclideanDist;
+}
+
+
+float BestFirstSearch::ManhattenDistance(int* point1, int* point2)
+{
+  float xDifference = abs(point1[0] - point2[0]);
+  float yDifference = abs(point1[1] - point2[1]);
+  float manhattenDist = xDifference + yDifference;
+  return manhattenDist;
 }
