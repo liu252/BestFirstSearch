@@ -110,3 +110,15 @@ float BestFirstSearch::ManhattenDistance(int* point1, int* point2)
   float manhattenDist = xDifference + yDifference;
   return manhattenDist;
 }
+
+float BestFirstSearch::EuclideanCost(int* point1, int* point2, int cost)
+{
+  float euclideanDist = EuclideanDistance(point1, point2) + cost;
+  return euclideanDist;
+}
+
+float BestFirstSearch::ManhattenCost(int* point1, int* point2, int cost)
+{
+  float manhattenDist = ManhattenDistance(point1, point2) + cost;
+  return manhattenDist;
+}

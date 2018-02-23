@@ -28,5 +28,11 @@ public:
   ManhattenDistance(int* point1, int* point2);
   ~ManhattenDistance();
 
+  EuclideanCost(int* point1, int* point2, int cost);
+  ~EuclideanCost();
+
+  ManhattenCost(int* point1, int* point2, int cost);
+  ~ManhattenCost();
+
 };
 #endif
