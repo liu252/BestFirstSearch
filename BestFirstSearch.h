@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <sstream>
+#include <cmath>
 
 #ifndef _BEST_FIRST_SEARCH_
 #define _BEST_FIRST_SEARCH_
@@ -22,17 +23,13 @@ public:
   ~BestFirstSearch();
   void print();
 
-  EuclideanDistance(int* point1, int* point2);
-  ~EuclideanDistance();
+  float EuclideanDistance(int* point1, int* point2);
 
-  ManhattenDistance(int* point1, int* point2);
-  ~ManhattenDistance();
+  float ManhattenDistance(int* point1, int* point2);
 
-  EuclideanCost(int* point1, int* point2, int cost);
-  ~EuclideanCost();
+  float EuclideanCost(int* point1, int* point2, int cost);
 
-  ManhattenCost(int* point1, int* point2, int cost);
-  ~ManhattenCost();
+  float ManhattenCost(int* point1, int* point2, int cost);
 
 };
 #endif
