@@ -9,7 +9,7 @@
 
 class BFS {
 public:
-    BFS();
+    BFS(int m);
 
     float calcDist(Point& p );
     bool isValid(Point& p );
@@ -25,6 +25,7 @@ public:
     Point neighbors[4];
     list<Node> open;
     list<Node> closed;
+    int mode;
 };
 
 #endif

@@ -6,6 +6,7 @@
 
 #ifndef _GRID_H_
 #define _GRID_H_
+using namespace std;
 
 class Grid{
 private:
@@ -14,7 +15,7 @@ private:
   std::string getName();
 public:
     Grid();
-    void setGrid();
+    void setGrid(string name);
     int operator()(int x, int y);
     int size;
     Point start;

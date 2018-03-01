@@ -2,10 +2,22 @@
 
 using namespace std;
 int main( int argc, char* argv[] ) {
+    string temp;
+    cout <<"Please enter the filename: ";
+    getline(cin, temp);
+    for (int mode = 1; mode <= 4; mode++)
+    {
     Grid g;
-    g.setGrid();
-    BFS b;
-
+    g.setGrid(temp);
+    BFS b(mode);
+    if(mode == 1)
+      cout << "Euclidean + Cost Method:" << endl;
+    else if (mode == 3)
+      cout << "Euclidean Cost:" << endl;
+    else if (mode == 2)
+      cout << "Manhatten + Cost Method:" << endl;
+    else if (mode == 4)
+      cout << "Manhatten Cost:" << endl;
     if(b.search(g.start, g.end, g)){
         list<Point> path;
         float c = b.path(path);
@@ -32,6 +44,8 @@ int main( int argc, char* argv[] ) {
         for( list<Point>::iterator i = path.begin(); i != path.end(); i++ ) {
             cout<< "(" << ( *i ).x << ", " << ( *i ).y << ") ";
         }
+        cout << endl;
+      }
     }
     cout << "\n\n";
     return 0;

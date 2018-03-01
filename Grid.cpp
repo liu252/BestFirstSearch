@@ -8,9 +8,8 @@ int Grid::operator()(int x, int y){
   return grid[x][y];
 }
 
-void Grid::setGrid(){
-  string name = getName();
-
+void Grid::setGrid(string name){
+  //string name = getName();
   cout<<"Reading "+name+"..."<<endl;
   ifstream finput(name.c_str());
   if (finput.fail()){//if the reading fails, will output an error message and quit

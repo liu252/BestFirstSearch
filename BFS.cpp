@@ -1,15 +1,26 @@
 #include "BFS.h"
 
 using namespace std;
-BFS::BFS() {
+BFS::BFS(int m) {
     neighbors[0] = Point(-1,0); neighbors[1] = Point(0,1);
     neighbors[2] = Point(1,0); neighbors[3] = Point(0,-1);
+    mode = m;
 }
 
 float BFS::calcDist(Point& p){
-    int x = end.x-p.x, y = end.y-p.y;
-    float dis =sqrt(x*x+y*y);
+    int x = abs(end.x-p.x), y = abs(end.y-p.y);
+    float dis;
+    if (mode == 1 || mode == 3)
+    {
+      dis =sqrt(x*x+y*y);
+    }
+    else if (mode == 2 || mode == 4)
+    {
+      dis = x + y;
+    }
     return dis;
+
+
 }
 
 bool BFS::isValid(Point& p) {
@@ -88,7 +99,11 @@ bool BFS::search(Point& s, Point& e, Grid& gr) {
 
 float BFS::path(list<Point>& path) {
     path.push_front(end);
-    float cost = 1 + closed.back().cost;
+    float cost;
+    if (mode == 1 || mode == 2)
+      cost = 1 + closed.back().cost;
+    else if (mode == 3 || mode == 4)
+      cost = 0;
     path.push_front(closed.back().pos);
     Point parent = closed.back().parent;
 
