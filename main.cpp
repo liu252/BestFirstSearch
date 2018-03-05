@@ -1,52 +1,29 @@
-#include "BFS.cpp"
-
+#include <string.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdlib.h>
+#include "Node.cpp"
+#include "Grid.cpp"
 using namespace std;
-int main( int argc, char* argv[] ) {
-    string temp;
-    cout <<"Please enter the filename: ";
-    getline(cin, temp);
-    for (int mode = 1; mode <= 4; mode++)
-    {
-    Grid g;
-    g.setGrid(temp);
-    BFS b(mode);
-    if(mode == 1)
-      cout << "Euclidean + Cost Method:" << endl;
-    else if (mode == 3)
-      cout << "Euclidean Cost:" << endl;
-    else if (mode == 2)
-      cout << "Manhatten + Cost Method:" << endl;
-    else if (mode == 4)
-      cout << "Manhatten Cost:" << endl;
-    if(b.search(g.start, g.end, g)){
-        list<Point> path;
-        float c = b.path(path);
-        for(int x=0; x<g.size; ++x){
-            for(int y=0; y<g.size; ++y){
-                if(g(x,y)==1)
-                    cout << "+";
-                else if(g.start.x==x && g.start.y==y){
-                  cout<<"i";
-                }
-                else if(g.end.x==x && g.end.y==y){
-                  cout<<"g";
-                }
-                else {
-                    if(find(path.begin(),path.end(),Point(x,y))!=path.end())
-                        cout << "o";
-                    else cout << ".";
-                }
-            }
-            cout<<"\n";
-        }
 
-        cout<<"\nPath cost " <<c<< ": ";
-        for( list<Point>::iterator i = path.begin(); i != path.end(); i++ ) {
-            cout<< "(" << ( *i ).x << ", " << ( *i ).y << ") ";
-        }
-        cout << endl;
-      }
-    }
-    cout << "\n\n";
-    return 0;
+string getName(){
+  string temp;
+  cout <<"Please enter the filename: ";
+  getline(cin, temp);
+  return temp;
+}
+
+int main(){
+  // Grid g(getName());
+  // Grid g("test.txt");
+  // g.printGrid();
+  // if (g.search(0))
+  //   g.printGrid();
+  string name= getName();
+  for(int m=0; m<4; ++m){
+    Grid g(name);
+    if(g.search(m))
+      g.printGrid();
+  }
 }

@@ -1,15 +1,14 @@
-#include "Point.cpp"
-
 #ifndef _NODE_H_
 #define _NODE_H_
 
-class Node {
+class Node{
 public:
-    bool operator==(const Node& o);
-    bool operator==(const Point& o);
-    bool operator<(const Node& o);
-    Point pos, parent;
-    float dist, cost;
+	Node(int a, int b,int c);
+	bool operator==(const Node& n);
+	bool operator<(const Node& n);
+	int x, y, type;
+	int parentX, parentY;
+	double dist, cost;
 };
 
 #endif

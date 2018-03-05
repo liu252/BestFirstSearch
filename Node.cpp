@@ -1,11 +1,17 @@
 #include "Node.h"
 
-bool Node::operator==(const Node& o){
-  return pos == o.pos;
+Node::Node(int a, int b, int c){
+  x=a;
+  y=b;
+  type=c;
+	parentX=-1;
+  parentY=-1;
+	dist=500.0;
+  cost=0.0;
 }
-bool Node::operator==(const Point& o){
-  return pos == o;
+bool Node::operator==(const Node& n){
+  return (x==n.x && y==n.y);
 }
-bool Node::operator<(const Node& o){
-  return dist + cost < o.dist + o.cost;
+bool Node::operator<(const Node& n){
+  return dist + cost < n.dist + n.cost;
 }

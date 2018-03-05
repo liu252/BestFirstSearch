@@ -1,24 +1,31 @@
-#include <string.h>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <stdlib.h>
-
+#include <list>
+#include <algorithm>
+#include <cmath>
 #ifndef _GRID_H_
 #define _GRID_H_
-using namespace std;
 
+using namespace std;
 class Grid{
 private:
-  int grid[80][80];
-
-  std::string getName();
+  Node* grid[80][80];
 public:
-    Grid();
+    Grid(string name);
+    ~Grid();
     void setGrid(string name);
-    int operator()(int x, int y);
+    void printGrid();
+    void addNeighbors(Node n);
+    void tracePath();
+    bool search(int m);
+    bool isValid(int x, int y);
+    double getDist(int a, int b);
+    Node* operator()(int x, int y);
     int size;
-    Point start;
-    Point end;
+    int mode;
+    int stepCost;
+    int totalF;
+    int totalC;
+    Node* start;
+    Node* goal;
+    list<Node> fringe;
 };
 #endif
