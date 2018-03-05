@@ -8,6 +8,7 @@
 using namespace std;
 
 string getName(){
+  //gets map filename
   string temp;
   cout <<"Please enter the filename: ";
   getline(cin, temp);
@@ -15,11 +16,6 @@ string getName(){
 }
 
 int main(){
-  // Grid g(getName());
-  // Grid g("test.txt");
-  // g.printGrid();
-  // if (g.search(0))
-  //   g.printGrid();
   string name= getName();
   for(int m=0; m<4; ++m){
     Grid g(name);

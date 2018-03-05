@@ -1,7 +1,9 @@
 #include "Grid.h"
 
 using namespace std;
-Grid::Grid(string name){
+Grid::Grid(string name)
+{
+  //Initializes Grid with Default Values
   size = 0;
   mode = 0;
   stepCost = 1;
@@ -9,20 +11,26 @@ Grid::Grid(string name){
   totalF = 0;
   setGrid(name);
 }
-Grid::~Grid(){
+Grid::~Grid()
+{
+  //Deconstructor of Grid
   start=NULL;
   goal=NULL;
-  for(int x=0; x<size; ++x){
-    for(int y=0; y<size; ++y){
+  for(int x=0; x<size; ++x)
+  {
+    for(int y=0; y<size; ++y)
+    {
       delete grid[x][y];
     }
   }
 }
-Node* Grid::operator()(int x, int y){
+Node* Grid::operator()(int x, int y)
+{
+  //Returns value at specific point in Grid
   return grid[x][y];
 }
 void Grid::setGrid(string name){
-  // cout<<"Reading "+name+"..."<<endl;
+  //Reads file and sets grid
   ifstream finput(name.c_str());
   if (finput.fail()){//if the reading fails, will output an error message and quit
     cerr<<"Error: Invalid Filename"<<endl;
@@ -34,7 +42,7 @@ void Grid::setGrid(string name){
     s<<c;
   s>>size;
 
-  // cout<<"Parsing the grid..."<<endl;
+  //Parses the grid and creates map
   for(int x= 0; x<size; ++x){
     for(int y= 0; y<size; ++y){
       c = finput.get();
@@ -59,6 +67,7 @@ void Grid::setGrid(string name){
   finput.close();
 }
 void Grid::printGrid(){
+  //prints completed grid onto console
   int t;
   for (int x=0; x<size; ++x){
     for (int y=0; y<size; ++y){
@@ -83,22 +92,27 @@ void Grid::printGrid(){
   }
   cout<<endl;
 }
-bool Grid::search(int m){
+bool Grid::search(int m)
+{
+  //Searches for neighbors around current point
   mode=m;
-  if(mode==0 || mode==1){
+  if(mode==0 || mode==1)
+  {
     stepCost=1;
   }
-  else{
+  else
+  {
     stepCost=0;
   }
-  // cout<<"Adding "<<start->x<<", "<<start->y<<" to the fringe"<<endl;
   fringe.push_back(*start);
   totalF++;
-  while(!fringe.empty()){
+  while(!fringe.empty())
+  {
     list<Node>::iterator it = min_element(fringe.begin(),fringe.end());
     fringe.erase(it);
     totalC++;
-    if (*it == *goal){
+    if (*it == *goal)
+    {
       tracePath();
       return true;
     }
@@ -107,98 +121,118 @@ bool Grid::search(int m){
 
   return false;
 }
-bool Grid::isValid(int x, int y){
+bool Grid::isValid(int x, int y)
+{
+  //Checks if point in grid is a valid neighbor
   return (x>=0 && x<size && y>=0 && y<size && grid[x][y]->type!=1);
 }
-void Grid::addNeighbors(Node n){
+void Grid::addNeighbors(Node n)
+{
   Node* neighbor=NULL;
-  if(isValid(n.x+1,n.y)){
+  if(isValid(n.x+1,n.y))
+  {
     neighbor=grid[n.x+1][n.y];
-    // cout<<"Cost: "<<neighbor->cost<<" | Dist: "<<neighbor->dist<<" | New cost: "<<n.cost+stepCost<<" | New dist: "<<getDist(n.x+1,n.y)<<endl;
-    if(neighbor->cost+neighbor->dist>n.cost+stepCost+getDist(n.x+1,n.y)){
+    //Finds cost and distance of right neighbor
+    if(neighbor->cost+neighbor->dist>n.cost+stepCost+getDist(n.x+1,n.y))
+    {
       neighbor->parentX=n.x;
       neighbor->parentY=n.y;
       neighbor->cost=n.cost+stepCost;
       neighbor->dist=getDist(n.x+1,n.y);
-      // cout<<"Adding "<<neighbor->x<<", "<<neighbor->y<<" to the fringe"<<endl;
+      //Adds right neighbor to fringe
       totalF++;
       fringe.push_front(*neighbor);
     }
   }
-  if(isValid(n.x-1,n.y)){
+  if(isValid(n.x-1,n.y))
+  {
     neighbor=grid[n.x-1][n.y];
-    // cout<<"Cost: "<<neighbor->cost<<" | Dist: "<<neighbor->dist<<" | New cost: "<<n.cost+stepCost<<" | New dist: "<<getDist(n.x-1,n.y)<<endl;
-    if(neighbor->cost+neighbor->dist>n.cost+stepCost+getDist(n.x-1,n.y)){
-    neighbor->parentX=n.x;
-    neighbor->parentY=n.y;
-    neighbor->cost=n.cost+stepCost;
-    neighbor->dist=getDist(n.x-1,n.y);
-    // cout<<"Adding "<<neighbor->x<<", "<<neighbor->y<<" to the fringe"<<endl;
-    totalF++;
-    fringe.push_front(*neighbor);
+    //Finds cost and distance of left neighbor
+    if(neighbor->cost+neighbor->dist>n.cost+stepCost+getDist(n.x-1,n.y))
+    {
+      neighbor->parentX=n.x;
+      neighbor->parentY=n.y;
+      neighbor->cost=n.cost+stepCost;
+      neighbor->dist=getDist(n.x-1,n.y);
+      //Adds left neighbor to fringe
+      totalF++;
+      fringe.push_front(*neighbor);
+    }
   }
-  }
-  if(isValid(n.x,n.y+1)){
+  if(isValid(n.x,n.y+1))
+  {
     neighbor=grid[n.x][n.y+1];
-    // cout<<"Cost: "<<neighbor->cost<<" | Dist: "<<neighbor->dist<<" | New cost: "<<n.cost+stepCost<<" | New dist: "<<getDist(n.x,n.y+1)<<endl;
-    if(neighbor->cost+neighbor->dist>n.cost+stepCost+getDist(n.x,n.y+1)){
-    neighbor->parentX=n.x;
-    neighbor->parentY=n.y;
-    neighbor->cost=n.cost+stepCost;
-    neighbor->dist=getDist(n.x,n.y+1);
-    // cout<<"Adding "<<neighbor->x<<", "<<neighbor->y<<" to the fringe"<<endl;
-    totalF++;
-    fringe.push_front(*neighbor);
+    //Finds cost and distance of top neighbor
+    if(neighbor->cost+neighbor->dist>n.cost+stepCost+getDist(n.x,n.y+1))
+    {
+      neighbor->parentX=n.x;
+      neighbor->parentY=n.y;
+      neighbor->cost=n.cost+stepCost;
+      neighbor->dist=getDist(n.x,n.y+1);
+      //Adds top neighbor to fringe
+      totalF++;
+      fringe.push_front(*neighbor);
+    }
   }
-  }
-  if(isValid(n.x,n.y-1)){
+  if(isValid(n.x,n.y-1))
+  {
     neighbor=grid[n.x][n.y-1];
-    // cout<<"Cost: "<<neighbor->cost<<" | Dist: "<<neighbor->dist<<" | New cost: "<<n.cost+stepCost<<" | New dist: "<<getDist(n.x,n.y-1)<<endl;
-    if(neighbor->cost+neighbor->dist>n.cost+stepCost+getDist(n.x,n.y-1)){
-    neighbor->parentX=n.x;
-    neighbor->parentY=n.y;
-    neighbor->cost=n.cost+stepCost;
-    neighbor->dist=getDist(n.x,n.y-1);
-    // cout<<"Adding "<<neighbor->x<<", "<<neighbor->y<<" to the fringe"<<endl;
-    totalF++;
-    fringe.push_front(*neighbor);
-  }
+    //Finds cost and distance of bottom neighbor
+    if(neighbor->cost+neighbor->dist>n.cost+stepCost+getDist(n.x,n.y-1))
+    {
+      neighbor->parentX=n.x;
+      neighbor->parentY=n.y;
+      neighbor->cost=n.cost+stepCost;
+      neighbor->dist=getDist(n.x,n.y-1);
+      //Adds bottom neighbor to fringe
+      totalF++;
+      fringe.push_front(*neighbor);
+    }
   }
   neighbor=NULL;
 }
-double Grid::getDist(int a, int b){
+double Grid::getDist(int a, int b)
+{
   double dist;
   double xDif = abs(goal->x - a);
   double yDif = abs(goal->y - b);
-  if (mode==0 || mode==2){
-
+  //Uses Euclidean or Manhattan methods
+  if (mode==0 || mode==2)
+  {
+    //Euclidean method
     dist = sqrt(yDif*yDif+xDif*xDif);
   }
-  else{
+  else
+  {
+    //Manhattan method
     dist = yDif+ xDif;
   }
   return dist;
 }
-void Grid::tracePath(){
+void Grid::tracePath()
+{
   Node* n = goal;
   int step=1;
-  // cout<<n->x<<", "<<n->y<<" -> "<<n->parentX<<", "<<n->parentY<<endl;
-  while(n->parentX!=start->x || n->parentY!=start->y){
+  while(n->parentX!=start->x || n->parentY!=start->y)
+  {
     step++;
     n = grid[n->parentX][n->parentY];
-    // cout<<n->x<<", "<<n->y<<" -> "<<n->parentX<<", "<<n->parentY<<endl;
     n->type=2;
   }
-  if(mode==0){
+  if(mode==0)
+  {
     cout<<"Euclidean + Step Cost"<<endl;
   }
-  else if(mode==1){
+  else if(mode==1)
+  {
     cout<<"Manhattan + Step Cost"<<endl;
   }
-  else if(mode==2){
+  else if(mode==2)
+  {
     cout<<"Euclidean Only"<<endl;
   }
-  else{
+  else
+  {
     cout<<"Manhattan Only"<<endl;
   }
   cout<<"Total steps: "<<step<<endl;
